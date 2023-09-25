@@ -1,0 +1,14 @@
+﻿  TableMash.cpp
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(71,17): warning C4244: 'initializing': conversion from 'double' to 'long', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(72,18): warning C4244: 'initializing': conversion from 'double' to 'long', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(97,130): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(97,105): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(97,81): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(97,59): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(106,52): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(107,54): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(108,89): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(108,67): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(149,15): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(150,16): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+  TextToTable.vcxproj -> D:\bsuir\5 term\SP\projects\TextToTable\x64\Debug\TextToTable.exe
