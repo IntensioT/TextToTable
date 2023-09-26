@@ -136,10 +136,10 @@
     <ClInclude Include="TextToTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FileName.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TableCell.cpp" />
     <ClCompile Include="TableMash.cpp" />
-    <ClCompile Include="TextToTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TextToTable.rc" />

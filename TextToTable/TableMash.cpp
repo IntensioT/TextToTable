@@ -1,5 +1,6 @@
 #include "tableMash.h"
 #include <dwrite.h>
+#include <cmath>
 
 IDWriteFactory* pDWriteFactory;
 IDWriteTextLayout* pTextLayout;
@@ -14,6 +15,7 @@ TableMash::TableMash()
 	pTextLayout = NULL;
 	pDWriteFactory = NULL;
 	pTextFormat = NULL;
+	brush = NULL;
 
 }
 
@@ -25,6 +27,7 @@ TableMash::~TableMash()
 	if (pTextLayout) pTextLayout->Release();
 	if (pDWriteFactory) pDWriteFactory->Release();
 	if (pTextFormat) pTextFormat->Release();
+	if (brush) brush->Release();
 }
 
 bool TableMash::Init(HWND windowHandle)
@@ -49,6 +52,13 @@ bool TableMash::Init(HWND windowHandle)
 	}
 
 	res = pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &pBlackBrush);
+
+	if (res != S_OK)
+	{
+		return false;
+	}
+
+	res = pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &brush);
 
 	if (res != S_OK)
 	{
@@ -86,10 +96,8 @@ void TableMash::UpdateMesh(HWND windowHandle, TableCell(&table)[5][5])
 }
 
 
-void TableMash::DrawAllRect(TableCell(&table)[5][5], WCHAR text1[], int textSize)
+void TableMash::DrawAllRect(TableCell table[5][5], WCHAR text1[], int textSize)
 {
-	static const WCHAR sc_helloWorld[] = L"Hello, World!";
-
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 5; j++)
@@ -99,10 +107,10 @@ void TableMash::DrawAllRect(TableCell(&table)[5][5], WCHAR text1[], int textSize
 			// Draw the outline of a rectangle.
 			pRenderTarget->DrawRectangle(&rectangle, pBlackBrush);
 
-			/*pRenderTarget->DrawText(text1, textSize, pTextFormat,
-				D2D1::RectF(table[i][j].GetLeft(), table[i][j].GetTop(), table[i][j].GetRight(), table[i][j].GetBottom()),
-				pBlackBrush);*/
 
+			DWRITE_TEXT_RANGE textRange = { 0, textSize };
+
+			pTextLayout->SetFontSize(sqrt((((table[i][j].GetRight() - table[i][j].GetLeft()))^2) + ((table[i][j].GetBottom() - table[i][j].GetTop()))^2), textRange);
 			pTextLayout->SetMaxWidth(table[i][j].GetRight() - table[i][j].GetLeft());
 			pTextLayout->SetMaxHeight(table[i][j].GetBottom() - table[i][j].GetTop());
 			pRenderTarget->DrawTextLayout(D2D1::Point2F(table[i][j].GetLeft(), table[i][j].GetTop()),pTextLayout,pBlackBrush);
@@ -115,7 +123,7 @@ void TableMash::DrawAllRect(TableCell(&table)[5][5], WCHAR text1[], int textSize
 HRESULT TableMash::CreateTextFactory(HWND hWnd, WCHAR text1[], int textSize)
 {
 	static const WCHAR msc_fontName[] = L"Verdana";
-	static const FLOAT msc_fontSize = 50;
+	static const FLOAT msc_fontSize = 20;
 	
 	if (SUCCEEDED(res))
 	{
@@ -165,12 +173,66 @@ HRESULT TableMash::CreateTextFactory(HWND hWnd, WCHAR text1[], int textSize)
 		pTextLayout->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 
 		pTextLayout->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-
-		pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-
-		pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 	}
 	
 	return res;
+}
+
+void TableMash::DrawCircle(HWND hWnd, float x, float y, float radius, float r, float g, float b, float a)
+{
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+	float width = (rect.right / M) / 13;
+	float height = (rect.bottom / N) /13;
+	const wchar_t madein[14] = L"Made in BSUIR";
+	float diam = x + radius;
+	//float letterWidthX = (x + radius)/13;
+	float letterWidthX = 40;
+	//float letterHeightY = (y + radius)/13;
+	float letterHeightY = 40;
+	float rot = 0;
+	float letterX = x;
+	float letterY = y - radius;
+
+	for (int i = 0; i < 6; i++)
+	{
+		//const wchar_t test[1] = { madein[i]};
+		if (SUCCEEDED(res))
+		{
+			res = pDWriteFactory->CreateTextLayout(
+				L"M",      // The string to be laid out and formatted.
+				1,  // The length of the string.
+				pTextFormat,  // The text format to apply to the string (contains font information, etc).
+				width,         // The width of the layout box.
+				height,        // The height of the layout box.
+				&pTextLayout  // The IDWriteTextLayout interface pointer.
+			);
+		}
+		// fmod((x+letterWidthX), diam)
+		pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(rot, D2D1::Point2F(letterX, letterY)));
+		pRenderTarget->DrawTextLayout(D2D1::Point2F(letterX, letterY), pTextLayout, pBlackBrush);
+		
+		if ((letterX + letterWidthX) > diam)
+		{
+			letterWidthX = 0 - letterWidthX;
+		}
+		letterX += letterWidthX;
+
+		if ((letterY + letterHeightY) > diam)
+		{
+			letterHeightY = 0 - letterHeightY;
+		}
+		letterY += letterHeightY;
+		rot += 27.69f;
+	}
+
+	
+
+	
+
+	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(0.0f, D2D1::Point2F(x, y - radius)));
+
+	brush->SetColor(D2D1::ColorF(r, g, b, a));
+	pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2(x, y), radius, radius), brush, 3.0f);
 }
 
