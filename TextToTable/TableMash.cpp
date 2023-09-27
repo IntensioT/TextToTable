@@ -1,6 +1,7 @@
 #include "tableMash.h"
 #include <dwrite.h>
 #include <cmath>
+#include <iostream>
 
 IDWriteFactory* pDWriteFactory;
 IDWriteTextLayout* pTextLayout;
@@ -73,18 +74,18 @@ void TableMash::ClearScreen(float r, float g, float b)
 	pRenderTarget->Clear(D2D1::ColorF(r, g, b));
 }
 
-void TableMash::UpdateMesh(HWND windowHandle, TableCell(&table)[5][5])
+void TableMash::UpdateMesh(HWND windowHandle, TableCell(&table)[cellRows][N])
 {
 	RECT rect;
 	GetClientRect(windowHandle, &rect);
 	pRenderTarget->Resize(D2D1::SizeU(rect.right, rect.bottom));
-	long cellWidth = (rect.right - rect.left) / 5.0;
-	long cellHeight = (rect.bottom - rect.top) / 5.0;
+	long cellWidth = (rect.right - rect.left) / N;
+	long cellHeight = (rect.bottom - rect.top) / cellRows;
 	long curLeft = rect.left, curTop = rect.top;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < cellRows; i++)
 	{
-		for (int j = 0; j < 5; j++)
+		for (int j = 0; j < N; j++)
 		{
 			table[i][j].ChangeRect(curLeft, curLeft+cellWidth, curTop, curTop+cellHeight);
 			curLeft += cellWidth;
@@ -96,11 +97,11 @@ void TableMash::UpdateMesh(HWND windowHandle, TableCell(&table)[5][5])
 }
 
 
-void TableMash::DrawAllRect(TableCell table[5][5], WCHAR text1[], int textSize)
+void TableMash::DrawAllRect(TableCell table[cellRows][N],const WCHAR text1[], int textSize)
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < cellRows; i++)
 	{
-		for (int j = 0; j < 5; j++)
+		for (int j = 0; j < N; j++)
 		{
 			D2D1_RECT_F rectangle = D2D1::RectF(table[i][j].GetLeft(), table[i][j].GetTop(), table[i][j].GetRight(), table[i][j].GetBottom());
 
@@ -120,9 +121,10 @@ void TableMash::DrawAllRect(TableCell table[5][5], WCHAR text1[], int textSize)
 	
 }
 
-HRESULT TableMash::CreateTextFactory(HWND hWnd, WCHAR text1[], int textSize)
+HRESULT TableMash::CreateTextFactory(HWND hWnd, const WCHAR text1[], int textSize)
 {
 	static const WCHAR msc_fontName[] = L"Verdana";
+	//static const WCHAR msc_fontName[] = L"Death Note";
 	static const FLOAT msc_fontSize = 20;
 	
 	if (SUCCEEDED(res))
@@ -154,8 +156,8 @@ HRESULT TableMash::CreateTextFactory(HWND hWnd, WCHAR text1[], int textSize)
 	{
 		RECT rect;
 		GetClientRect(hWnd, &rect);
-		float width = rect.right / 5;
-		float height = rect.bottom / 5;
+		float width = rect.right / cellRows;
+		float height = rect.bottom / N;
 
 		res = pDWriteFactory->CreateTextLayout(
 			text1,      // The string to be laid out and formatted.
@@ -180,11 +182,14 @@ HRESULT TableMash::CreateTextFactory(HWND hWnd, WCHAR text1[], int textSize)
 
 void TableMash::DrawCircle(HWND hWnd, float x, float y, float radius, float r, float g, float b, float a)
 {
+	const wchar_t madein[14] = L"Made in BSUIR";
+	std::wstring input = madein;
+	int inpSize = input.size();
+
 	RECT rect;
 	GetClientRect(hWnd, &rect);
-	float width = (rect.right / M) / 13;
-	float height = (rect.bottom / N) /13;
-	const wchar_t madein[14] = L"Made in BSUIR";
+	float width = (rect.right / N) / inpSize;
+	float height = (rect.bottom / cellRows) / inpSize;
 	float diam = x + radius;
 	//float letterWidthX = (x + radius)/13;
 	float letterWidthX = 40;
@@ -194,7 +199,7 @@ void TableMash::DrawCircle(HWND hWnd, float x, float y, float radius, float r, f
 	float letterX = x;
 	float letterY = y - radius;
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < inpSize; i++)
 	{
 		//const wchar_t test[1] = { madein[i]};
 		if (SUCCEEDED(res))

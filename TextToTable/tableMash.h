@@ -4,8 +4,8 @@
 #include <d2d1.h>
 #include "TableCell.h"
 
-#define M 5
-#define N 5
+#define cellRows 1
+#define N 10
 
 class TableMash
 {
@@ -30,9 +30,9 @@ public:
 	void EndDraw() { pRenderTarget->EndDraw(); }
 
 	void ClearScreen(float r, float g, float b);
-	void UpdateMesh(HWND windowHandle, TableCell (&table)[5][5]);
-	void DrawAllRect(TableCell table[5][5], WCHAR text1[], int textSize);
-	HRESULT CreateTextFactory(HWND hWnd, WCHAR text1[], int textSize);
+	void UpdateMesh(HWND windowHandle, TableCell (&table)[cellRows][N]);
+	void DrawAllRect(TableCell table[cellRows][N],const WCHAR text1[], int textSize);
+	HRESULT CreateTextFactory(HWND hWnd, const WCHAR text1[], int textSize);
 	void DrawCircle(HWND hWnd, float x, float y, float radius, float r, float g, float b, float a);
 
 
