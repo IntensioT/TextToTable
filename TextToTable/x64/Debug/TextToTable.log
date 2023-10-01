@@ -1,21 +1,21 @@
-﻿  Main.cpp
-C:\Users\USER\Desktop\TextToTable\TextToTable\Main.cpp(46,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\Main.cpp(60,55): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  TableMash.cpp
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(106,130): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(106,105): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(106,81): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(106,59): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(112,39): warning C4838: conversion from 'int' to 'UINT32' requires a narrowing conversion
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(114,33): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(115,52): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(116,54): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(117,89): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(117,67): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(159,15): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(160,16): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(187,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(191,14): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
-C:\Users\USER\Desktop\TextToTable\TextToTable\TableMash.cpp(192,15): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
-  Generating Code...
-  TextToTable.vcxproj -> C:\Users\USER\Desktop\TextToTable\x64\Debug\TextToTable.exe
+﻿  TableMash.cpp
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(110,130): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(110,105): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(110,81): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(110,59): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(116,39): warning C4838: conversion from 'int' to 'UINT32' requires a narrowing conversion
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(118,33): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(119,52): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(120,54): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(121,89): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(121,67): warning C4244: 'argument': conversion from 'long' to 'FLOAT', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(166,15): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(167,16): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(199,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(201,10): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(202,10): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(203,16): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(205,16): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(241,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\bsuir\5 term\SP\projects\TextToTable\TextToTable\TableMash.cpp(242,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  TextToTable.vcxproj -> D:\bsuir\5 term\SP\projects\TextToTable\x64\Debug\TextToTable.exe

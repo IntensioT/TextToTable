@@ -6,7 +6,8 @@
 
 using namespace std;
 
-wstring userInp = L"Maxim abobus lubit Alexeeva ochen silno Maxim abobus lubit Alexeeva ochen silno ";
+//wstring userInp = L"Maxim abobus lubit Alexeeva ochen silno Maxim abobus lubit Alexeeva ochen silno ";
+wstring userInp = L"Test123";
 WCHAR UserInput[] = L"12345678912345678912";
 bool isAbout = false;
 
@@ -55,9 +56,12 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		tm->ClearScreen(1, 1, 1);
 		if (isAbout)
 		{
-			tm->DrawCircle(hWnd, 100, 100, 50, 0, 0, 0, 1);
+			tm->DrawCircle(hWnd, /*200, 200,*/ /*150, 150,*/ 0, 0, 0, 1);
 		}
-		tm->DrawAllRect(table, userInp.c_str(), userInp.size());
+		else 
+		{
+			tm->DrawAllRect(table, userInp.c_str(), userInp.size());
+		}
 		tm->EndDraw();
 		return 0;
 	case WM_DESTROY:

@@ -3,8 +3,11 @@
 #include <cmath>
 #include <iostream>
 
+# define PI           3.14159265358979323846 
+
 IDWriteFactory* pDWriteFactory;
 IDWriteTextLayout* pTextLayout;
+IDWriteTextLayout* pEmblemLayout;
 IDWriteTextFormat* pTextFormat;
 
 
@@ -99,6 +102,7 @@ void TableMash::UpdateMesh(HWND windowHandle, TableCell(&table)[cellRows][N])
 
 void TableMash::DrawAllRect(TableCell table[cellRows][N],const WCHAR text1[], int textSize)
 {
+
 	for (int i = 0; i < cellRows; i++)
 	{
 		for (int j = 0; j < N; j++)
@@ -123,9 +127,12 @@ void TableMash::DrawAllRect(TableCell table[cellRows][N],const WCHAR text1[], in
 
 HRESULT TableMash::CreateTextFactory(HWND hWnd, const WCHAR text1[], int textSize)
 {
-	static const WCHAR msc_fontName[] = L"Verdana";
+	//static const WCHAR msc_fontName[] = L"Verdana";
+	//static const WCHAR msc_fontName[] = L"Microsoft Sans Serif";
+	//static const WCHAR msc_fontName[] = L"Comic Sans MS";
+	static const WCHAR msc_fontName[] = L"Courier New";
 	//static const WCHAR msc_fontName[] = L"Death Note";
-	static const FLOAT msc_fontSize = 20;
+	static const FLOAT msc_fontSize = 30;
 	
 	if (SUCCEEDED(res))
 	{
@@ -180,64 +187,69 @@ HRESULT TableMash::CreateTextFactory(HWND hWnd, const WCHAR text1[], int textSiz
 	return res;
 }
 
-void TableMash::DrawCircle(HWND hWnd, float x, float y, float radius, float r, float g, float b, float a)
+void TableMash::DrawCircle(HWND hWnd, float r, float g, float b, float a)
 {
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+
+
+	
 	const wchar_t madein[14] = L"Made in BSUIR";
 	std::wstring input = madein;
 	int inpSize = input.size();
 
-	RECT rect;
-	GetClientRect(hWnd, &rect);
-	float width = (rect.right / N) / inpSize;
-	float height = (rect.bottom / cellRows) / inpSize;
-	float diam = x + radius;
-	//float letterWidthX = (x + radius)/13;
-	float letterWidthX = 40;
-	//float letterHeightY = (y + radius)/13;
-	float letterHeightY = 40;
+	float x = rect.right / 2;
+	float y = rect.bottom / 2;
+	float radiusX = (rect.right / 5);
+	float width = radiusX / inpSize;
+	float radiusY = (rect.bottom / 5);
+	float height = radiusY / inpSize;
+	
+	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(0.0f, D2D1::Point2F(x, y - radiusY)));
+
+	brush->SetColor(D2D1::ColorF(0, 1, 1, 1));
+	pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2(x, y), radiusX, radiusY), brush);
+
+
 	float rot = 0;
-	float letterX = x;
-	float letterY = y - radius;
+	float angleStep = 360.0f / inpSize;
+	float letterX = x + radiusX;
+	float letterY = y;
 
 	for (int i = 0; i < inpSize; i++)
 	{
 		//const wchar_t test[1] = { madein[i]};
 		if (SUCCEEDED(res))
 		{
+			const WCHAR* tempInp = &madein[i];
 			res = pDWriteFactory->CreateTextLayout(
-				L"M",      // The string to be laid out and formatted.
+				tempInp,      // The string to be laid out and formatted.
 				1,  // The length of the string.
 				pTextFormat,  // The text format to apply to the string (contains font information, etc).
 				width,         // The width of the layout box.
 				height,        // The height of the layout box.
-				&pTextLayout  // The IDWriteTextLayout interface pointer.
+				&pEmblemLayout  // The IDWriteTextLayout interface pointer.
 			);
 		}
-		// fmod((x+letterWidthX), diam)
-		pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(rot, D2D1::Point2F(letterX, letterY)));
-		pRenderTarget->DrawTextLayout(D2D1::Point2F(letterX, letterY), pTextLayout, pBlackBrush);
 		
-		if ((letterX + letterWidthX) > diam)
-		{
-			letterWidthX = 0 - letterWidthX;
-		}
-		letterX += letterWidthX;
+		pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(rot + 90, D2D1::Point2F(letterX, letterY)));
+		pRenderTarget->DrawTextLayout(D2D1::Point2F(letterX, letterY), pEmblemLayout, pBlackBrush);
 
-		if ((letterY + letterHeightY) > diam)
-		{
-			letterHeightY = 0 - letterHeightY;
-		}
-		letterY += letterHeightY;
-		rot += 27.69f;
+
+		
+		rot += angleStep;
+		letterX = x + radiusX * cos(rot * PI / 180); // converting degrees to radians
+		letterY = y + radiusY * sin(rot * PI / 180);
 	}
 
 	
 
 	
 
-	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(0.0f, D2D1::Point2F(x, y - radius)));
+	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(0.0f, D2D1::Point2F(x, y - radiusY)));
 
 	brush->SetColor(D2D1::ColorF(r, g, b, a));
-	pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2(x, y), radius, radius), brush, 3.0f);
+	pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2(x, y), radiusX, radiusY), brush, 3.0f);
+
 }
 

@@ -33,7 +33,7 @@ public:
 	void UpdateMesh(HWND windowHandle, TableCell (&table)[cellRows][N]);
 	void DrawAllRect(TableCell table[cellRows][N],const WCHAR text1[], int textSize);
 	HRESULT CreateTextFactory(HWND hWnd, const WCHAR text1[], int textSize);
-	void DrawCircle(HWND hWnd, float x, float y, float radius, float r, float g, float b, float a);
+	void DrawCircle(HWND hWnd, /*float x, float y,*/ /*float radiusX, float radiusY,*/ float r, float g, float b, float a);
 
 
 
