@@ -7,6 +7,7 @@
 using namespace std;
 
 //wstring userInp = L"Maxim abobus lubit Alexeeva ochen silno Maxim abobus lubit Alexeeva ochen silno ";
+//static char strTest[] = "sus12345";
 wstring userInp = L"Test123";
 WCHAR UserInput[] = L"12345678912345678912";
 bool isAbout = false;
@@ -20,6 +21,7 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_COMMAND:
+
 	{
 		int wmId = LOWORD(wParam);
 		// Parse the menu selections:
@@ -56,7 +58,7 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		tm->ClearScreen(1, 1, 1);
 		if (isAbout)
 		{
-			tm->DrawCircle(hWnd, /*200, 200,*/ /*150, 150,*/ 0, 0, 0, 1);
+			tm->DrawCircle(hWnd, 0, 0, 0, 1);
 		}
 		else 
 		{
@@ -67,16 +69,26 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_UP:
+			// Process the UP ARROW key. 
+
+			return 0;
+		}
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
 	const wchar_t ClassName[] = L"TableWindow";
 	WNDCLASS wc = {};
-  wc.style = CS_HREDRAW | CS_VREDRAW;
+    wc.style = CS_HREDRAW | CS_VREDRAW;
  
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
@@ -95,6 +107,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	}
 
 	ShowWindow(hWnd, nCmdShow);
+
 
 	MSG msg = {};
 	while (GetMessage(&msg, NULL, 0, 0)) {

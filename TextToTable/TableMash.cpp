@@ -5,6 +5,8 @@
 
 # define PI           3.14159265358979323846 
 
+using namespace std;
+
 IDWriteFactory* pDWriteFactory;
 IDWriteTextLayout* pTextLayout;
 IDWriteTextLayout* pEmblemLayout;
@@ -44,7 +46,7 @@ bool TableMash::Init(HWND windowHandle)
 
 	RECT rect;
 	GetClientRect(windowHandle, &rect);
-	
+
 
 	res = pFactory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(),
 		D2D1::HwndRenderTargetProperties(windowHandle, D2D1::SizeU(rect.right, rect.bottom)),
@@ -90,7 +92,7 @@ void TableMash::UpdateMesh(HWND windowHandle, TableCell(&table)[cellRows][N])
 	{
 		for (int j = 0; j < N; j++)
 		{
-			table[i][j].ChangeRect(curLeft, curLeft+cellWidth, curTop, curTop+cellHeight);
+			table[i][j].ChangeRect(curLeft, curLeft + cellWidth, curTop, curTop + cellHeight);
 			curLeft += cellWidth;
 
 		}
@@ -100,7 +102,7 @@ void TableMash::UpdateMesh(HWND windowHandle, TableCell(&table)[cellRows][N])
 }
 
 
-void TableMash::DrawAllRect(TableCell table[cellRows][N],const WCHAR text1[], int textSize)
+void TableMash::DrawAllRect(TableCell table[cellRows][N], const WCHAR text1[], int textSize)
 {
 
 	for (int i = 0; i < cellRows; i++)
@@ -115,14 +117,14 @@ void TableMash::DrawAllRect(TableCell table[cellRows][N],const WCHAR text1[], in
 
 			DWRITE_TEXT_RANGE textRange = { 0, textSize };
 
-			pTextLayout->SetFontSize(sqrt((((table[i][j].GetRight() - table[i][j].GetLeft()))^2) + ((table[i][j].GetBottom() - table[i][j].GetTop()))^2), textRange);
+			pTextLayout->SetFontSize(sqrt((((table[i][j].GetRight() - table[i][j].GetLeft())) ^ 2) + ((table[i][j].GetBottom() - table[i][j].GetTop())) ^ 2), textRange);
 			pTextLayout->SetMaxWidth(table[i][j].GetRight() - table[i][j].GetLeft());
 			pTextLayout->SetMaxHeight(table[i][j].GetBottom() - table[i][j].GetTop());
-			pRenderTarget->DrawTextLayout(D2D1::Point2F(table[i][j].GetLeft(), table[i][j].GetTop()),pTextLayout,pBlackBrush);
+			pRenderTarget->DrawTextLayout(D2D1::Point2F(table[i][j].GetLeft(), table[i][j].GetTop()), pTextLayout, pBlackBrush);
 		}
 	}
-		
-	
+
+
 }
 
 HRESULT TableMash::CreateTextFactory(HWND hWnd, const WCHAR text1[], int textSize)
@@ -133,7 +135,7 @@ HRESULT TableMash::CreateTextFactory(HWND hWnd, const WCHAR text1[], int textSiz
 	static const WCHAR msc_fontName[] = L"Courier New";
 	//static const WCHAR msc_fontName[] = L"Death Note";
 	static const FLOAT msc_fontSize = 30;
-	
+
 	if (SUCCEEDED(res))
 	{
 		// Create a DirectWrite factory.
@@ -176,14 +178,14 @@ HRESULT TableMash::CreateTextFactory(HWND hWnd, const WCHAR text1[], int textSiz
 		);
 	}
 
-		if (SUCCEEDED(res))
+	if (SUCCEEDED(res))
 	{
 		// Center the text horizontally and vertically.
 		pTextLayout->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 
 		pTextLayout->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 	}
-	
+
 	return res;
 }
 
@@ -192,11 +194,8 @@ void TableMash::DrawCircle(HWND hWnd, float r, float g, float b, float a)
 	RECT rect;
 	GetClientRect(hWnd, &rect);
 
-
-	
-	const wchar_t madein[14] = L"Made in BSUIR";
-	std::wstring input = madein;
-	int inpSize = input.size();
+	static char madein[14] = "Made in BSUIR";
+	int inpSize = std::strlen(madein);
 
 	float x = rect.right / 2;
 	float y = rect.bottom / 2;
@@ -204,7 +203,7 @@ void TableMash::DrawCircle(HWND hWnd, float r, float g, float b, float a)
 	float width = radiusX / inpSize;
 	float radiusY = (rect.bottom / 5);
 	float height = radiusY / inpSize;
-	
+
 	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(0.0f, D2D1::Point2F(x, y - radiusY)));
 
 	brush->SetColor(D2D1::ColorF(0, 1, 1, 1));
@@ -216,12 +215,15 @@ void TableMash::DrawCircle(HWND hWnd, float r, float g, float b, float a)
 	float letterX = x + radiusX;
 	float letterY = y;
 
+	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &madein[0], strlen(madein), NULL, 0);
+	std::wstring wstrTo(size_needed, 0);
+	MultiByteToWideChar(CP_UTF8, 0, &madein[0], strlen(madein), &wstrTo[0], size_needed);
+
 	for (int i = 0; i < inpSize; i++)
 	{
-		//const wchar_t test[1] = { madein[i]};
 		if (SUCCEEDED(res))
 		{
-			const WCHAR* tempInp = &madein[i];
+			const WCHAR* tempInp = &wstrTo[i];
 			res = pDWriteFactory->CreateTextLayout(
 				tempInp,      // The string to be laid out and formatted.
 				1,  // The length of the string.
@@ -231,20 +233,16 @@ void TableMash::DrawCircle(HWND hWnd, float r, float g, float b, float a)
 				&pEmblemLayout  // The IDWriteTextLayout interface pointer.
 			);
 		}
-		
+
 		pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(rot + 90, D2D1::Point2F(letterX, letterY)));
 		pRenderTarget->DrawTextLayout(D2D1::Point2F(letterX, letterY), pEmblemLayout, pBlackBrush);
 
 
-		
 		rot += angleStep;
 		letterX = x + radiusX * cos(rot * PI / 180); // converting degrees to radians
 		letterY = y + radiusY * sin(rot * PI / 180);
 	}
 
-	
-
-	
 
 	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(0.0f, D2D1::Point2F(x, y - radiusY)));
 
@@ -252,4 +250,3 @@ void TableMash::DrawCircle(HWND hWnd, float r, float g, float b, float a)
 	pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2(x, y), radiusX, radiusY), brush, 3.0f);
 
 }
-
